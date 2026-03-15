@@ -1,709 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PadelISB Feasibility Report 2026</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --neon-cyan: #00f5d4;
-            --electric-blue: #4361ee;
-            --soft-purple: #7209b7;
-            --warning-orange: #f77f00;
-            --dark-bg: #0a0a0f;
-            --card-bg: #12121a;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--dark-bg);
-            color: #e2e8f0;
-            overflow-x: hidden;
-        }
-        
-        h1, h2, h3, .display-font {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--electric-blue) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .gradient-border {
-            position: relative;
-            background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .gradient-border::before {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            border-radius: inherit;
-            padding: 1px;
-            background: linear-gradient(135deg, var(--neon-cyan), var(--electric-blue), var(--soft-purple));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0.5;
-        }
-        
-        .stat-card {
-            background: linear-gradient(135deg, rgba(0,245,212,0.1) 0%, rgba(67,97,238,0.05) 100%);
-            border: 1px solid rgba(0,245,212,0.2);
-            backdrop-filter: blur(10px);
-        }
-        
-        .glow-cyan {
-            box-shadow: 0 0 20px rgba(0,245,212,0.3);
-        }
-        
-        .grid-pattern {
-            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
-            background-size: 40px 40px;
-        }
-        
-        .revenue-bar {
-            background: linear-gradient(90deg, var(--neon-cyan) 0%, var(--electric-blue) 100%);
-            height: 100%;
-            border-radius: 4px;
-            transition: width 1s ease-out;
-        }
-        
-        .check-mark {
-            color: var(--neon-cyan);
-        }
-        
-        .cross-mark {
-            color: #ef4444;
-        }
-        
-        .tilt-card {
-            transform: perspective(1000px) rotateX(2deg2deg);
-            transition: transform 0.3s ease;
-        }
-        
-        .tilt-card:hover {
-            transform: perspective(1000px) rotateX(0deg) translateY(-5px);
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        .floating {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        .odds-circle {
-            background: conic-gradient(var(--neon-cyan) calc(var(--percentage) * 1%), transparent 0);
-        }
-        
-        .timeline-line {
-            background: linear-gradient(180deg, var(--neon-cyan) 0%, var(--electric-blue) 50%, var(--soft-purple) 100%);
-        }
-    </style>
-</head>
-<body class="grid-pattern">
+<script type="text/babel">
+    const { useState, useEffect } = React;
 
-    <!-- Hero Section -->
-    <section class="min-h-screen flex flex-col justify-center items-center relative overflow-hidden px-4 py-20">
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/10 to-transparent pointer-events-none"></div>
-        
-        <div class="max-w-6xl mx-auto text-center relative z-10">
-            <div class="mb-6 inline-block px-4 py-1 rounded-full border border-cyan-400/30 bg-cyan-400/10 text-cyan-400 text-sm tracking-widest uppercase">
-                March 2026 · Islamabad, Pakistan
-            </div>
-            
-            <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight display-font">
-                Can <span class="gradient-text">PadelISB</span> Work?
-            </h1>
-            
-            <p class="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto mb-12 font-light">
-                A refined feasibility analysis of building Islamabad's first digital padel ecosystem — combining rigorous financial modeling with real-world market dynamics.
-            </p>
-            
-            <div class="flex flex-wrap justify-center gap-4 mb-16">
-                <div class="stat-card px-8 py-4 rounded-2xl">
-                    <div class="text-3xl font-bold text-cyan-400 display-font">6.8/10</div>
-                    <div class="text-sm text-gray-400 uppercase tracking-wider">Feasibility Score</div>
-                </div>
-                <div class="stat-card px-8 py-4 rounded-2xl border-blue-500/20" style="background: linear-gradient(135deg, rgba(67,97,238,0.1) 0%, rgba(114,9,183,0.05) 100%); border-color: rgba(67,97,238,0.2);">
-                    <div class="text-3xl font-bold text-blue-400 display-font">72%</div>
-                    <div class="text-sm text-gray-400 uppercase tracking-wider">Success Odds</div>
-                </div>
-                <div class="stat-card px-8 py-4 rounded-2xl border-purple-500/20" style="background: linear-gradient(135deg, rgba(114,9,183,0.1) 0%, rgba(247,127,0,0.05) 100%); border-color: rgba(114,9,183,0.2);">
-                    <div class="text-3xl font-bold text-purple-400 display-font">3-5yr</div>
-                    <div class="text-sm text-gray-400 uppercase tracking-wider">Market Window</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-            </svg>
-        </div>
-    </section>
-
-    <!-- Market Snapshot Grid -->
-    <section class="py-20 px-4 max-w-7xl mx-auto">
-        <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center display-font">Market Reality Check</h2>
-        
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-16">
-            <div class="gradient-border rounded-2xl p-6 text-center tilt-card">
-                <div class="text-4xl md:text-5xl font-bold gradient-text display-font mb-2">~8</div>
-                <div class="text-sm text-gray-400 uppercase tracking-widest">Courts in ISB</div>
-                <div class="text-xs text-gray-500 mt-2">CDA auctioned 5 new sites</div>
-            </div>
-            
-            <div class="gradient-border rounded-2xl p-6 text-center tilt-card">
-                <div class="text-4xl md:text-5xl font-bold text-cyan-400 display-font mb-2">1-3K</div>
-                <div class="text-sm text-gray-400 uppercase tracking-widest">Active Players</div>
-                <div class="text-xs text-gray-500 mt-2">High ARPU demographic</div>
-            </div>
-            
-            <div class="gradient-border rounded-2xl p-6 text-center tilt-card">
-                <div class="text-4xl md:text-5xl font-bold text-blue-400 display-font mb-2">Zero</div>
-                <div class="text-sm text-gray-400 uppercase tracking-widest">Direct Competitors</div>
-                <div class="text-xs text-gray-500 mt-2">Blue ocean opportunity</div>
-            </div>
-            
-            <div class="gradient-border rounded-2xl p-6 text-center tilt-card">
-                <div class="text-4xl md:text-5xl font-bold text-purple-400 display-font mb-2">Rs 5M</div>
-                <div class="text-sm text-gray-400 uppercase tracking-widest">Monthly Market</div>
-                <div class="text-xs text-gray-500 mt-2">Total addressable</div>
-            </div>
-            
-            <div class="gradient-border rounded-2xl p-6 text-center tilt-card">
-                <div class="text-4xl md:text-5xl font-bold text-orange-400 display-font mb-2">56</div>
-                <div class="text-sm text-gray-400 uppercase tracking-widest">Daily Matches</div>
-                <div class="text-xs text-gray-500 mt-2">~7 hrs/court avg</div>
-            </div>
-            
-            <div class="gradient-border rounded-2xl p-6 text-center tilt-card">
-                <div class="text-4xl md:text-5xl font-bold text-green-400 display-font mb-2">92%</div>
-                <div class="text-sm text-gray-400 uppercase tracking-widest">Retention Rate</div>
-                <div class="text-xs text-gray-500 mt-2">Global padel statistic</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Problem-Solution Fit -->
-    <section class="py-20 px-4 bg-gradient-to-b from-transparent to-blue-900/10">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl md:text-4xl font-bold mb-12 display-font">Problem-Solution Matrix</h2>
-            
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="gradient-border rounded-2xl p-8">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-2xl font-bold text-red-400 display-font">The Pain Points</h3>
-                        <span class="px-3 py-1 bg-red-400/10 text-red-400 rounded-full text-sm">Current State</span>
-                    </div>
-                    
-                    <div class="space-y-6">
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 rounded-full bg-red-400/10 flex items-center justify-center flex-shrink-0">
-                                <span class="text-2xl">😤</span>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-lg mb-1">The 4th Player Hunt</h4>
-                                <p class="text-gray-400 text-sm">Padel requires exactly 4 players. Groups constantly scramble to find that last person, resulting in cancelled sessions.</p>
-                                <div class="mt-2 text-xs text-red-400 font-semibold">SEVERITY: HIGH</div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 rounded-full bg-orange-400/10 flex items-center justify-center flex-shrink-0">
-                                <span class="text-2xl">📞</span>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-lg mb-1">Phone-Only Booking</h4>
-                                <p class="text-gray-400 text-sm">Zero digital infrastructure. Courts rely on WhatsApp and calls, causing double-bookings and inefficient slot management.</p>
-                                <div class="mt-2 text-xs text-orange-400 font-semibold">SEVERITY: MEDIUM</div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 rounded-full bg-yellow-400/10 flex items-center justify-center flex-shrink-0">
-                                <span class="text-2xl">💸</span>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-lg mb-1">Payment Friction</h4>
-                                <p class="text-gray-400 text-sm">Cash-only or manual transfers. No automated payments, deposits, or refund systems for cancellations.</p>
-                                <div class="mt-2 text-xs text-yellow-400 font-semibold">SEVERITY: MEDIUM</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="gradient-border rounded-2xl p-8 border-cyan-400/30">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-2xl font-bold text-cyan-400 display-font">PadelISB Solutions</h3>
-                        <span class="px-3 py-1 bg-cyan-400/10 text-cyan-400 rounded-full text-sm">Proposed</span>
-                    </div>
-                    
-                    <div class="space-y-6">
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 rounded-full bg-cyan-400/10 flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-lg mb-1">Smart Matchmaking</h4>
-                                <p class="text-gray-400 text-sm">AI-powered player matching based on skill level, location, and availability. Never hunt for a 4th again.</p>
-                                <div class="mt-2 flex gap-2">
-                                    <span class="text-xs bg-cyan-400/20 text-cyan-400 px-2 py-1 rounded">Skill Matching</span>
-                                    <span class="text-xs bg-cyan-400/20 text-cyan-400 px-2 py-1 rounded">Ratings</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 rounded-full bg-blue-400/10 flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-lg mb-1">Real-Time Booking</h4>
-                                <p class="text-gray-400 text-sm">Live court availability with instant confirmation. SaaS dashboard for court owners to manage inventory.</p>
-                                <div class="mt-2 flex gap-2">
-                                    <span class="text-xs bg-blue-400/20 text-blue-400 px-2 py-1 rounded">Live Calendar</span>
-                                    <span class="text-xs bg-blue-400/20 text-blue-400 px-2 py-1 rounded">Auto-sync</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 rounded-full bg-purple-400/10 flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-lg mb-1">Integrated Payments</h4>
-                                <p class="text-gray-400 text-sm">JazzCash/EasyPaisa integration with deposit system, split payments between players, and automated refunds.</p>
-                                <div class="mt-2 flex gap-2">
-                                    <span class="text-xs bg-purple-400/20 text-purple-400 px-2 py-1 rounded">Split Pay</span>
-                                    <span class="text-xs bg-purple-400/20 text-purple-400 px-2 py-1 rounded">Escrow</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Competitive Landscape -->
-    <section class="py-20 px-4 max-w-7xl mx-auto">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4 display-font">Competitive Landscape</h2>
-        <p class="text-gray-400 mb-12 max-w-2xl">Blue ocean scenario: No dedicated padel tech exists in Islamabad. Competition is behavioral, not product-based.</p>
-        
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="border-b border-gray-800">
-                        <th class="pb-4 text-gray-400 font-medium uppercase tracking-wider text-sm">Competitor</th>
-                        <th class="pb-4 text-gray-400 font-medium uppercase tracking-wider text-sm text-center">Pakistan</th>
-                        <th class="pb-4 text-gray-400 font-medium uppercase tracking-wider text-sm text-center">Padel Focus</th>
-                        <th class="pb-4 text-gray-400 font-medium uppercase tracking-wider text-sm text-center">Court Booking</th>
-                        <th class="pb-4 text-gray-400 font-medium uppercase tracking-wider text-sm text-center">Player Match</th>
-                        <th class="pb-4 text-gray-400 font-medium uppercase tracking-wider text-sm text-center">ISB Presence</th>
-                    </tr>
-                </thead>
-                <tbody class="text-sm">
-                    <tr class="border-b border-gray-800/50 bg-cyan-400/5">
-                        <td class="py-4 font-bold text-cyan-400">PadelISB (You)</td>
-                        <td class="py-4 text-center text-cyan-400 text-xl">✓</td>
-                        <td class="py-4 text-center text-cyan-400 text-xl">✓</td>
-                        <td class="py-4 text-center text-cyan-400 text-xl">✓</td>
-                        <td class="py-4 text-center text-cyan-400 text-xl">✓</td>
-                        <td class="py-4 text-center text-cyan-400 text-xl">✓</td>
-                    </tr>
-                    <tr class="border-b border-gray-800/50">
-                        <td class="py-4 font-medium text-gray-300">Playtomic</td>
-                        <td class="py-4 text-center text-red-400 text-xl">✗</td>
-                        <td class="py-4 text-center text-cyan-400 text-xl">✓</td>
-                        <td class="py-4 text-center text-cyan-400 text-xl">✓</td>
-                        <td class="py-4 text-center text-cyan-400 text-xl">✓</td>
-                        <td class="py-4 text-center text-red-400 text-xl">✗</td>
-                    </tr>
-                    <tr class="border-b border-gray-800/50">
-                        <td class="py-4 font-medium text-gray-300">SukhChayn Sports</td>
-                        <td class="py-4 text-center text-cyan-400 text-xl">✓</td>
-                        <td class="py-4 text-center text-red-400 text-xl">✗</td>
-                        <td class="py-4 text-center text-yellow-400 text-xl">~</td>
-                        <td class="py-4 text-center text-red-400 text-xl">✗</td>
-                        <td class="py-4 text-center text-yellow-400 text-xl">~</td>
-                    </tr>
-                    <tr class="border-b border-gray-800/50">
-                        <td class="py-4 font-medium text-gray-300">WhatsApp Groups</td>
-                        <td class="py-4 text-center text-cyan-400 text-xl">✓</td>
-                        <td class="py-4 text-center text-yellow-400 text-xl">~</td>
-                        <td class="py-4 text-center text-red-400 text-xl">✗</td>
-                        <td class="py-4 text-center text-yellow-400 text-xl">~</td>
-                        <td class="py-4 text-center text-cyan-400 text-xl">✓</td>
-                    </tr>
-                    <tr class="border-b border-gray-800/50">
-                        <td class="py-4 font-medium text-gray-300">Bookforsport PK</td>
-                        <td class="py-4 text-center text-cyan-400 text-xl">✓</td>
-                        <td class="py-4 text-center text-red-400 text-xl">✗</td>
-                        <td class="py-4 text-center text-cyan-400 text-xl">✓</td>
-                        <td class="py-4 text-center text-red-400 text-xl">✗</td>
-                        <td class="py-4 text-center text-yellow-400 text-xl">~</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
-        <div class="mt-8 p-6 gradient-border rounded-xl bg-blue-900/10">
-            <p class="text-lg text-gray-300 italic">"Your only real competition is informal coordination on WhatsApp. That is not a product — it is a habit. Habits can be broken by significantly better tools."</p>
-        </div>
-    </section>
-
-    <!-- Financial Model -->
-    <section class="py-20 px-4 bg-gradient-to-b from-purple-900/10 to-transparent">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl md:text-4xl font-bold mb-12 display-font">Financial Feasibility</h2>
-            
-            <div class="grid md:grid-cols-2 gap-8 mb-12">
-                <div class="gradient-border rounded-2xl p-8">
-                    <h3 class="text-xl font-bold mb-6 text-cyan-400 display-font">Revenue Streams (Monthly)</h3>
-                    
-                    <div class="space-y-6">
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-300">Booking Commission (10%)</span>
-                                <span class="font-bold text-cyan-400">Rs 150,000</span>
-                            </div>
-                            <div class="w-full bg-gray-800 rounded-full h-2">
-                                <div class="revenue-bar" style="width: 75%"></div>
-                            </div>
-                            <div class="text-xs text-gray-500 mt-1">Core Engine ★★★★★</div>
-                        </div>
-                        
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-300">Court SaaS Fees</span>
-                                <span class="font-bold text-blue-400">Rs 60,000</span>
-                            </div>
-                            <div class="w-full bg-gray-800 rounded-full h-2">
-                                <div class="revenue-bar" style="width: 30%; background: linear-gradient(90deg, #4361ee 0%, #7209b7 100%)"></div>
-                            </div>
-                            <div class="text-xs text-gray-500 mt-1">Predictable MRR ★★★★</div>
-                        </div>
-                        
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-300">Premium Subscriptions</span>
-                                <span class="font-bold text-purple-400">Rs 100,000</span>
-                            </div>
-                            <div class="w-full bg-gray-800 rounded-full h-2">
-                                <div class="revenue-bar" style="width: 50%; background: linear-gradient(90deg, #7209b7 0%, #f77f00 100%)"></div>
-                            </div>
-                            <div class="text-xs text-gray-500 mt-1">Year 2 Focus ★★★</div>
-                        </div>
-                        
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-300">Tournament Fees & Coaching</span>
-                                <span class="font-bold text-orange-400">Rs 40,000</span>
-                            </div>
-                            <div class="w-full bg-gray-800 rounded-full h-2">
-                                <div class="revenue-bar" style="width: 20%; background: linear-gradient(90deg, #f77f00 0%, #ffd700 100%)"></div>
-                            </div>
-                            <div class="text-xs text-gray-500 mt-1">High Visibility ★★★</div>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-8 pt-6 border-t border-gray-700">
-                        <div class="flex justify-between items-center">
-                            <span class="text-lg font-bold text-white">Total Potential</span>
-                            <span class="text-2xl font-bold gradient-text display-font">Rs 350,000/mo</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="gradient-border rounded-2xl p-8">
-                    <h3 class="text-xl font-bold mb-6 text-red-400 display-font">Operating Costs (Monthly)</h3>
-                    
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center p-3 bg-red-400/5 rounded-lg">
-                            <span class="text-gray-300">Cloud Infrastructure</span>
-                            <span class="font-mono text-red-400">Rs 20,000</span>
-                        </div>
-                        <div class="flex justify-between items-center p-3 bg-red-400/5 rounded-lg">
-                            <span class="text-gray-300">Development (AI-assisted)</span>
-                            <span class="font-mono text-red-400">Rs 50,000</span>
-                        </div>
-                        <div class="flex justify-between items-center p-3 bg-red-400/5 rounded-lg">
-                            <span class="text-gray-300">Marketing & Acquisition</span>
-                            <span class="font-mono text-red-400">Rs 40,000</span>
-                        </div>
-                        <div class="flex justify-between items-center p-3 bg-red-400/5 rounded-lg">
-                            <span class="text-gray-300">Operations & Support</span>
-                            <span class="font-mono text-red-400">Rs 30,000</span>
-                        </div>
-                        <div class="flex justify-between items-center p-3 bg-red-400/5 rounded-lg">
-                            <span class="text-gray-300">Payment Processing</span>
-                            <span class="font-mono text-red-400">Rs 15,000</span>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-6 pt-6 border-t border-gray-700">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-lg font-bold text-white">Total Costs</span>
-                            <span class="text-xl font-bold text-red-400 display-font">Rs 155,000/mo</span>
-                        </div>
-                        <div class="flex justify-between items-center p-4 bg-cyan-400/10 rounded-lg border border-cyan-400/30 mt-4">
-                            <span class="font-bold text-cyan-400">Net Margin</span>
-                            <span class="text-2xl font-bold text-cyan-400 display-font">Rs 195,000/mo</span>
-                        </div>
-                        <div class="text-center text-sm text-gray-400 mt-2">~56% Margin at scale</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Conservative Projections -->
-            <div class="gradient-border rounded-2xl p-8">
-                <h3 class="text-xl font-bold mb-6 display-font">Conservative Growth Trajectory</h3>
-                
-                <div class="overflow-x-auto">
-                    <table class="w-full">
-                        <thead>
-                            <tr class="text-left border-b border-gray-700">
-                                <th class="pb-4 text-gray-400 font-medium">Period</th>
-                                <th class="pb-4 text-gray-400 font-medium text-center">Courts</th>
-                                <th class="pb-4 text-gray-400 font-medium text-center">Active Users</th>
-                                <th class="pb-4 text-gray-400 font-medium text-center">Monthly Revenue</th>
-                                <th class="pb-4 text-gray-400 font-medium">Key Milestone</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-sm">
-                            <tr class="border-b border-gray-800/50">
-                                <td class="py-4 font-bold text-cyan-400">2026 Q2</td>
-                                <td class="py-4 text-center">5-8</td>
-                                <td class="py-4 text-center">200-400</td>
-                                <td class="py-4 text-center font-bold text-cyan-400">Rs 80K-150K</td>
-                                <td class="py-4 text-gray-400">MVP live, ISB only</td>
-                            </tr>
-                            <tr class="border-b border-gray-800/50">
-                                <td class="py-4 font-bold text-blue-400">2026 Q4</td>
-                                <td class="py-4 text-center">12-18</td>
-                                <td class="py-4 text-center">800-1,500</td>
-                                <td class="py-4 text-center font-bold text-blue-400">Rs 300K-600K</td>
-                                <td class="py-4 text-gray-400">First seed round</td>
-                            </tr>
-                            <tr class="border-b border-gray-800/50">
-                                <td class="py-4 font-bold text-purple-400">2027</td>
-                                <td class="py-4 text-center">30-50</td>
-                                <td class="py-4 text-center">5,000+</td>
-                                <td class="py-4 text-center font-bold text-purple-400">Rs 1.2M-2M</td>
-                                <td class="py-4 text-gray-400">Expand to LHR/KHI</td>
-                            </tr>
-                            <tr class="border-b border-gray-800/50">
-                                <td class="py-4 font-bold text-orange-400">2028</td>
-                                <td class="py-4 text-center">80-120</td>
-                                <td class="py-4 text-center">15K-25K</td>
-                                <td class="py-4 text-center font-bold text-orange-400">Rs 4M-7M</td>
-                                <td class="py-4 text-gray-400">Series A territory</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Risk Assessment -->
-    <section class="py-20 px-4 max-w-6xl mx-auto">
-        <h2 class="text-3xl md:text-4xl font-bold mb-12 display-font">Risk vs. Opportunity Matrix</h2>
-        
-        <div class="grid md:grid-cols-2 gap-8">
-            <div class="space-y-4">
-                <h3 class="text-xl font-bold text-cyan-400 mb-6 flex items-center gap-2">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                    </svg>
-                    Opportunities
-                </h3>
-                
-                <div class="gradient-border rounded-xl p-4 border-l-4 border-l-cyan-400">
-                    <h4 class="font-bold text-white mb-1">First-Mover Advantage</h4>
-                    <p class="text-sm text-gray-400">Zero credible local competitor in padel-specific tech. Own the market before Playtomic arrives.</p>
-                </div>
-                
-                <div class="gradient-border rounded-xl p-4 border-l-4 border-l-cyan-400">
-                    <h4 class="font-bold text-white mb-1">Government Tailwinds</h4>
-                    <p class="text-sm text-gray-400">CDA actively auctioning court sites. Pakistan Startup Fund offering 30% equity-free grants.</p>
-                </div>
-                
-                <div class="gradient-border rounded-xl p-4 border-l-4 border-l-cyan-400">
-                    <h4 class="font-bold text-white mb-1">92% Sport Retention</h4>
-                    <p class="text-sm text-gray-400">Built-in app retention. Players who book once will book again and again.</p>
-                </div>
-                
-                <div class="gradient-border rounded-xl p-4 border-l-4 border-l-cyan-400">
-                    <h4 class="font-bold text-white mb-1">Gulf Spillover Effect</h4>
-                    <p class="text-sm text-gray-400">Middle East padel boom (Saudi Vision 2030) hits Pakistan in 2-3 years. Be ready.</p>
-                </div>
-            </div>
-            
-            <div class="space-y-4">
-                <h3 class="text-xl font-bold text-red-400 mb-6 flex items-center gap-2">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                    </svg>
-                    Risks & Mitigations
-                </h3>
-                
-                <div class="gradient-border rounded-xl p-4 border-l-4 border-l-red-400">
-                    <h4 class="font-bold text-white mb-1">Small Initial Market</h4>
-                    <p class="text-sm text-gray-400">Only 1,000-3,000 active players today. <span class="text-cyan-400">Mitigation:</span> Low burn rate, focus on retention over acquisition.</p>
-                </div>
-                
-                <div class="gradient-border rounded-xl p-4 border-l-4 border-l-orange-400">
-                    <h4 class="font-bold text-white mb-1">Manual Court Onboarding</h4>
-                    <p class="text-sm text-gray-400">Phone-only venues require manual data entry. <span class="text-cyan-400">Mitigation:</span> WhatsApp Business API integration for court owners.</p>
-                </div>
-                
-                <div class="gradient-border rounded-xl p-4 border-l-4 border-l-yellow-400">
-                    <h4 class="font-bold text-white mb-1">Low App Payment Willingness</h4>
-                    <p class="text-sm text-gray-400">Pakistani users resist paying for apps. <span class="text-cyan-400">Mitigation:</span> Freemium model, court pays not player.</p>
-                </div>
-                
-                <div class="gradient-border rounded-xl p-4 border-l-4 border-l-red-400">
-                    <h4 class="font-bold text-white mb-1">Playtomic Entry Timeline</h4>
-                    <p class="text-sm text-gray-400">Global player may enter in 3-5 years. <span class="text-cyan-400">Mitigation:</span> Build moat through community, become acquisition target.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Success Probability -->
-    <section class="py-20 px-4 bg-gradient-to-b from-transparent to-cyan-900/10">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-3xl md:text-4xl font-bold mb-12 display-font">Probability Assessment</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="relative">
-                    <svg class="w-32 h-32 mx-auto transform -rotate-90">
-                        <circle cx="64" cy="64" r="56" stroke="rgba(255,255,255,0.1)" stroke-width="8" fill="none"></circle>
-                        <circle cx="64" cy="64" r="56" stroke="#00f5d4" stroke-width="8" fill="none" stroke-dasharray="351.86" stroke-dashoffset="98.52" stroke-linecap="round"></circle>
-                    </svg>
-                    <div class="absolute inset-0 flex items-center justify-center flex-col">
-                        <span class="text-3xl font-bold text-white display-font">72%</span>
-                    </div>
-                    <h3 class="mt-4 font-bold text-cyan-400">Building Something Real</h3>
-                    <p class="text-sm text-gray-400 mt-2">Viable product with product-market fit</p>
-                </div>
-                
-                <div class="relative">
-                    <svg class="w-32 h-32 mx-auto transform -rotate-90">
-                        <circle cx="64" cy="64" r="56" stroke="rgba(255,255,255,0.1)" stroke-width="8" fill="none"></circle>
-                        <circle cx="64" cy="64" r="56" stroke="#4361ee" stroke-width="8" fill="none" stroke-dasharray="351.86" stroke-dashoffset="193.52" stroke-linecap="round"></circle>
-                    </svg>
-                    <div class="absolute inset-0 flex items-center justify-center flex-col">
-                        <span class="text-3xl font-bold text-white display-font">45%</span>
-                    </div>
-                    <h3 class="mt-4 font-bold text-blue-400">Raising Seed Funding</h3>
-                    <p class="text-sm text-gray-400 mt-2">Rs 300K-600K monthly revenue</p>
-                </div>
-                
-                <div class="relative">
-                    <svg class="w-32 h-32 mx-auto transform -rotate-90">
-                        <circle cx="64" cy="64" r="56" stroke="rgba(255,255,255,0.1)" stroke-width="8" fill="none"></circle>
-                        <circle cx="64" cy="64" r="56" stroke="#7209b7" stroke-width="8" fill="none" stroke-dasharray="351.86" stroke-dashoffset="263.90" stroke-linecap="round"></circle>
-                    </svg>
-                    <div class="absolute inset-0 flex items-center justify-center flex-col">
-                        <span class="text-3xl font-bold text-white display-font">25%</span>
-                    </div>
-                    <h3 class="mt-4 font-bold text-purple-400">Meaningful Exit</h3>
-                    <p class="text-sm text-gray-400 mt-2">Acquisition or sustainable business</p>
-                </div>
-            </div>
-            
-            <div class="mt-16 p-8 gradient-border rounded-2xl bg-gradient-to-r from-cyan-400/10 to-blue-500/10">
-                <h3 class="text-2xl font-bold mb-4 display-font gradient-text">Final Verdict: GO</h3>
-                <p class="text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto">
-                    The feasibility score of <span class="text-cyan-400 font-bold">6.8/10</span> reflects a genuine opportunity with manageable risks. The market is small but growing rapidly. The timing aligns with global padel expansion and local infrastructure investment. With AI-assisted development keeping costs low and a clear path to Rs 200K+ monthly revenue, PadelISB represents a calculated bet with asymmetric upside.
-                </p>
-                <div class="mt-6 flex justify-center gap-4 text-sm">
-                    <span class="px-4 py-2 rounded-full bg-cyan-400/20 text-cyan-400 border border-cyan-400/30">Start at NIC Islamabad</span>
-                    <span class="px-4 py-2 rounded-full bg-blue-400/20 text-blue-400 border border-blue-400/30">Validate with 5 Courts</span>
-                    <span class="px-4 py-2 rounded-full bg-purple-400/20 text-purple-400 border border-purple-400/30">Build MVP in 30 Days</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="py-12 px-4 border-t border-gray-800 mt-20">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="text-gray-500 text-sm">
-                PadelISB Feasibility Report · March 2026 · Islamabad, Pakistan
-            </div>
-            <div class="text-gray-600 text-sm">
-                Refined Analysis · Built with AI-Assisted Research
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Animate progress bars on scroll
-        const observerOptions = {
-            threshold: 0.5,
-            rootMargin: "0px"
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.width = entry.target.getAttribute('style').match(/width: (\d+%)/)[1];
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.revenue-bar').forEach(bar => {
-            const width = bar.style.width;
-            bar.style.width = '0%';
-            setTimeout(() => {
-                bar.style.width = width;
-            }, 100);
-            observer.observe(bar);
+    const CourtlyApp = () => {
+        const [activeTab, setActiveTab] = useState('dashboard');
+        const [calculatorInputs, setCalculatorInputs] = useState({
+            hourlyRate: 2500,
+            hoursPerDay: 7,
+            commission: 10
         });
+        const [showBookingModal, setShowBookingModal] = useState(false);
+        const [selectedSlot, setSelectedSlot] = useState(null);
 
-        // Add hover effects to cards
-        document.querySelectorAll('.tilt-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = (y - centerY) / 20;
-                const rotateY = (centerX - x) / 20;
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(2deg) translateY(0)';
-            });
-        });
-    </script>
+        // Revenue logic
+        const dailyRevenue = calculatorInputs.hourlyRate * calculatorInputs.hoursPerDay;
+        const monthlyRevenue = dailyRevenue * 30;
+        const courtlyCommission = monthlyRevenue * (calculatorInputs.commission / 100);
+        const yourEarnings = monthlyRevenue - courtlyCommission;
+
+        const timeSlots = [
+            { time: '06:00 AM', status: 'available', price: 2000 },
+            { time: '07:00 AM', status: 'booked', player: 'Ahmad & Team' },
+            { time: '08:00 AM', status: 'booked', player: 'DHA Group' },
+            { time: '09:00 AM', status: 'available', price: 3000 },
+            { time: '05:00 PM', status: 'available', price: 3500 },
+            { time: '06:00 PM', status: 'booked', player: 'F-7 Regulars' },
+        ];
+
+        return (
+            <div className="min-h-screen bg-slate-900 text-white overflow-x-hidden">
+                {/* Navigation */}
+                <nav className="fixed w-full z-50 glass-panel border-b border-slate-700/50">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex justify-between items-center h-16">
+                            <div className="flex items-center space-x-2">
+                                <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
+                                    <span className="text-white font-bold text-lg">C</span>
+                                </div>
+                                <span className="text-xl font-bold tracking-tight">Courtly</span>
+                            </div>
+                            <div className="hidden md:flex items-center space-x-8">
+                                <a href="#features" className="text-slate-300 hover:text-emerald-400 transition">Features</a>
+                                <button 
+                                    onClick={() => window.open('https://wa.me/923365575550', '_blank')}
+                                    className="bg-emerald-600 hover:bg-emerald-500 px-6 py-2 rounded-full font-medium transition"
+                                >
+                                    Contact Us
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
+                {/* Hero Section */}
+                <section className="relative pt-32 pb-20 px-4">
+                    <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+                        <div className="space-y-8">
+                            <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
+                                Stop Managing Bookings on <span className="gradient-text">WhatsApp</span>
+                            </h1>
+                            <p className="text-xl text-slate-400">
+                                The first digital platform for padel courts in Islamabad.
+                            </p>
+                            <button className="bg-emerald-600 px-8 py-4 rounded-full font-bold">
+                                See Platform Demo
+                            </button>
+                        </div>
+                        
+                        {/* Demo Dashboard */}
+                        <div className="glass-panel rounded-2xl p-6 border border-slate-700 shadow-2xl">
+                            <h3 className="font-semibold mb-4">F-6 Padel Club Dashboard</h3>
+                            <div className="space-y-3">
+                                {timeSlots.map((slot, idx) => (
+                                    <div key={idx} className="flex justify-between p-3 rounded-lg bg-slate-800/50 border border-slate-700">
+                                        <span>{slot.time}</span>
+                                        <span className={slot.status === 'available' ? 'text-emerald-400' : 'text-slate-500'}>
+                                            {slot.status === 'available' ? `Rs ${slot.price}` : slot.player}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<CourtlyApp />);
+</script>
 </body>
 </html>
